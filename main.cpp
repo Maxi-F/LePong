@@ -1,20 +1,5 @@
 #include "raylib.h"
 
-struct Ball {
-    Vector2 position;
-    Vector2 velocity;
-    int radius;
-
-    void refreshVelocity() {
-        if (position.x >= (GetScreenWidth() - radius) || (position.x <= radius)) velocity.x *= -1.0f;
-        if (position.y >= (GetScreenHeight() - radius) || (position.y <= radius)) velocity.y *= -1.0f;
-    }
-
-    void refreshPosition() {
-        position = { position.x + velocity.x, position.y + velocity.y };
-    }
-};
-
 struct Paddle {
     Vector2 position;
     Vector2 size;
@@ -28,11 +13,31 @@ struct Paddle {
     }
 };
 
+struct Ball {
+    Vector2 position;
+    Vector2 velocity;
+    int radius;
+
+    void checkCollissionWith(Paddle paddle) {
+        if (CheckCollisionCircleRec(position, radius, { paddle.position.x, paddle.position.y, paddle.size.x, paddle.size.y })) {
+            velocity.x *= -1.0f;
+        }
+    }
+
+    void refreshVelocity() {
+        if (position.y >= (GetScreenHeight() - radius) || (position.y <= radius)) velocity.y *= -1.0f;
+    }
+
+    void refreshPosition() {
+        position = { position.x + velocity.x, position.y + velocity.y };
+    }
+};
+
 const int BALL_RADIUS = 5;
 const Vector2 BALL_VELOCITY = { 3.0f, 3.0f };
 const Vector2 PADDLE_SIZE = { 5.0f, 40.0f };
 const float PADDLE_MARGIN = 40.0f;
-const int PADDLE_VELOCITY = 2.5f;
+const int PADDLE_VELOCITY = 4.0f;
 
 int getHalfScreen(int screenSize) {
     return screenSize / 2.0f;
@@ -82,6 +87,8 @@ int main()
 
         // Actualización
 
+        ball.checkCollissionWith(player1);
+        ball.checkCollissionWith(player2);
         ball.refreshPosition();
         ball.refreshVelocity();
 
