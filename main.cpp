@@ -28,14 +28,15 @@ struct Ball {
         if (position.y >= (GetScreenHeight() - radius) || (position.y <= radius)) velocity.y *= -1.0f;
     }
 
-    void refreshPosition() {
+    void refreshPosition(Vector2 initialPosition) {
         position = { position.x + velocity.x, position.y + velocity.y };
+        if (position.x >= (GetScreenWidth() - radius) || (position.x <= radius)) position = initialPosition;
     }
 };
 
 const int BALL_RADIUS = 5;
 const Vector2 BALL_VELOCITY = { 3.0f, 3.0f };
-const Vector2 PADDLE_SIZE = { 5.0f, 40.0f };
+const Vector2 PADDLE_SIZE = { 5.0f, 120.0f };
 const float PADDLE_MARGIN = 40.0f;
 const int PADDLE_VELOCITY = 4.0f;
 
@@ -53,14 +54,16 @@ int main()
     int halfScreenWidth = getHalfScreen(GetScreenWidth());
     int halfScreenHeight = getHalfScreen(GetScreenHeight());
 
+    Vector2 initialBallPosition = { halfScreenWidth, halfScreenHeight };
+
     Ball ball = {
-        { halfScreenWidth, halfScreenHeight},
+        initialBallPosition,
         BALL_VELOCITY,
         BALL_RADIUS
     };
 
     Paddle player1 = {
-        { PADDLE_MARGIN, halfScreenHeight},
+        { PADDLE_MARGIN, halfScreenHeight },
         PADDLE_SIZE,
         KEY_W,
         KEY_S,
@@ -89,7 +92,7 @@ int main()
 
         ball.checkCollissionWith(player1);
         ball.checkCollissionWith(player2);
-        ball.refreshPosition();
+        ball.refreshPosition(initialBallPosition);
         ball.refreshVelocity();
 
         // Dibujado
