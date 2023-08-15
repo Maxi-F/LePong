@@ -1,0 +1,22 @@
+﻿  main.cpp
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(11,29): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(14,17): warning C4244: 'return': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(32,20): warning C4244: 'return': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(41,47): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(42,28): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(43,56): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(43,30): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(71,52): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(71,32): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(76,37): warning C4838: la conversión de 'int' en 'float' requiere una conversión de restricción
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(76,37): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(76,54): warning C4838: la conversión de 'int' en 'float' requiere una conversión de restricción
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(76,54): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(85,64): warning C4244: 'argumento': conversión de 'const float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(85,43): warning C4838: la conversión de 'int' en 'float' requiere una conversión de restricción
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(85,43): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(92,83): warning C4244: 'argumento': conversión de 'const float' a 'int'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(92,62): warning C4838: la conversión de 'int' en 'float' requiere una conversión de restricción
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(92,62): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\LePong\main.cpp(119,40): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+  LePong.vcxproj -> C:\Users\maxif\Documents\Image Campus\Desarrollo 1\LePong\Debug\LePong.exe
