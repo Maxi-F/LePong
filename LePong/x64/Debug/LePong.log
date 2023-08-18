@@ -1,0 +1,14 @@
+﻿  ball.cpp
+C:\Users\Aula 2\Desktop\LePong\LePong\ball.cpp(1,10): fatal error C1083: No se puede abrir el archivo incluir: 'raylib.h': No such file or directory
+  game.cpp
+C:\Users\Aula 2\Desktop\LePong\LePong\game.cpp(1,10): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+C:\Users\Aula 2\Desktop\LePong\LePong\game.cpp(1,10): fatal error C1083: No se puede abrir el archivo incluir: 'raylib.h': No such file or directory
+  main.cpp
+C:\Users\Aula 2\Desktop\LePong\LePong\paddle.h(1,10): fatal error C1083: No se puede abrir el archivo incluir: 'raylib.h': No such file or directory
+  constants.cpp
+C:\Users\Aula 2\Desktop\LePong\LePong\constants.cpp(1,10): fatal error C1083: No se puede abrir el archivo incluir: 'raylib.h': No such file or directory
+  paddle.cpp
+C:\Users\Aula 2\Desktop\LePong\LePong\paddle.cpp(1,10): fatal error C1083: No se puede abrir el archivo incluir: 'raylib.h': No such file or directory
+  utils.cpp
+C:\Users\Aula 2\Desktop\LePong\LePong\utils.cpp(1,10): fatal error C1083: No se puede abrir el archivo incluir: 'raylib.h': No such file or directory
+  Generando código...
