@@ -39,8 +39,6 @@ GameEntities init() {
         PADDLE_VELOCITY,
     };
 
-    SetTargetFPS(60);
-
     return { {player1, player2}, ball };
 }
 
