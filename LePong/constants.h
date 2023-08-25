@@ -7,3 +7,4 @@ extern const float MAX_BALL_ACCELERATION;
 extern const Vector2 PADDLE_SIZE;
 extern const float PADDLE_MARGIN;
 extern const float PADDLE_VELOCITY; 
+extern const int MAX_SCORE;
