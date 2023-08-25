@@ -9,4 +9,3 @@ struct Ball {
 void checkCollissionWith(Paddle paddle, Ball& ball);
 void refreshVelocity(Ball& ball);
 void refreshPosition(Ball& ball);
-Rectangle getCollisionBox(Ball ball);

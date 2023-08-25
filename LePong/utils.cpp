@@ -6,6 +6,10 @@ float clamp(float value, float min, float max)
     return (value < min) ? min : value > max ? max : value;
 }
 
+float moduleOf(float value) {
+    return value < 0 ? -value : value;
+}
+
 bool checkRectangleCollision(Rectangle rectangle1, Rectangle rectangle2) {
     float rectangle1LeftEdge = rectangle1.x;
     float rectangle1RightEdge = rectangle1.x + rectangle1.width;
@@ -37,4 +41,8 @@ float getDistanceFromMiddle(Rectangle rectangle, Vector2 point) {
     float middle = rectangle.y + (rectangle.height / 2);
 
     return point.y - middle;
+}
+
+float getRandomNegativeOrPositive() {
+    return GetRandomValue(0, 1) == 0 ? -1.0f : 1.0f;
 }
