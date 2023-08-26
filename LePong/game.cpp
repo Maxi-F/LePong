@@ -18,7 +18,7 @@ static void close() {
     CloseWindow();
 }
 
-static void update(Screens& screen, GameEntities& gameEntities) {
+static void update(Screens screen, GameEntities& gameEntities) {
     switch (screen) {
     case Screens::MENU:
         break;

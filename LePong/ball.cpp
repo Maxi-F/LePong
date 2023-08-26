@@ -3,47 +3,25 @@
 #include "ball.h"
 #include "utils.h"
 #include "constants.h"
-#include <iostream>
-using namespace std;
+
+extern const float BALL_RADIUS = 5.0f;
+extern const float BALL_VELOCITY = 500.0f;
+extern const float BALL_ACCELERATION = 1.05f;
+extern const float MAX_BALL_ACCELERATION = 2000.0f;
 
 static Rectangle getCollisionBox(Ball ball) {
     return { ball.position.x - ball.radius, ball.position.y - ball.radius, ball.radius * 2, ball.radius * 2 };
 }
 
-void checkCollissionWith(Paddle paddle, Ball& ball) {
-    if (checkRectangleCollision(paddle.rectangle, getCollisionBox(ball))) {
-        float distance = getDistanceFromMiddle(paddle.rectangle, { ball.position.x + ball.radius, ball.position.y });
-        float halfHeight = getHalf(paddle.rectangle.height);
+static float getDistancePercentageFromPaddle(Paddle paddle, Ball& ball) {
+    float distance = getDistanceFromMiddle(paddle.rectangle, { ball.position.x + ball.radius, ball.position.y });
+    float halfHeight = getHalf(paddle.rectangle.height);
 
-        float percentage = clamp(1 - (halfHeight - distance) / halfHeight, -1, 1) * 0.5;
-
-        cout << "PERCENTAGE: " << percentage << endl;
-
-        ball.velocity *= BALL_ACCELERATION;
-        ball.velocity = clamp(ball.velocity, BALL_VELOCITY, MAX_BALL_ACCELERATION);
-        cout << "X: " << ball.direction.x << ", Y: " << ball.direction.y << endl;
-
-        ball.direction = { ball.direction.x > 0 ? moduleOf(percentage) - 1 : 1 - moduleOf(percentage), percentage };
-
-        cout << "AFTER: " << "X: " << ball.direction.x << ", Y: " << ball.direction.y << endl;
-
-        ball.position.x = ball.direction.x > 0 ? paddle.rectangle.x + paddle.rectangle.width + ball.radius + getWithFrameTime(1.0f) : paddle.rectangle.x - ball.radius - getWithFrameTime(1.0f);
-    }
+    return clamp(1 - (halfHeight - distance) / halfHeight, -1, 1) * 0.5;
 }
 
-void refreshVelocity(Ball& ball) {
-    bool ballOnTopCollision = ball.position.y >= (GetScreenHeight() - ball.radius);
-    bool ballOnBottomCollision = (ball.position.y <= ball.radius);
-    
-    if (ballOnTopCollision || ballOnBottomCollision) {
-        if (ballOnTopCollision) {
-            ball.position.y = GetScreenHeight() - ball.radius - getWithFrameTime(1.0f);
-        }
-        else {
-            ball.position.y = ball.radius + getWithFrameTime(1.0f);
-        }
-        ball.direction.y *= -1.0f;
-    };
+static float getValuePerBallDirection(Ball ball, float directionPositiveValue, float directionNegativeValue) {
+    return ball.direction.x > 0 ? directionPositiveValue : directionNegativeValue;
 }
 
 bool isBallOnLeftEdge(Ball& ball) {
@@ -58,6 +36,35 @@ static bool isBallOnEdge(Ball& ball) {
     return isBallOnLeftEdge(ball) || isBallOnRightEdge(ball);
 }
 
+void checkCollissionWith(Paddle paddle, Ball& ball) {
+    if (checkRectangleCollision(paddle.rectangle, getCollisionBox(ball))) {
+        float directionPercentage = getDistancePercentageFromPaddle(paddle, ball);
+
+        ball.velocity = clamp(ball.velocity * BALL_ACCELERATION, BALL_VELOCITY, MAX_BALL_ACCELERATION);
+
+        ball.direction = { getValuePerBallDirection(ball, moduleOf(directionPercentage) - 1, 1 - moduleOf(directionPercentage)), directionPercentage };
+
+        float leftPaddleKnockback = paddle.rectangle.x + paddle.rectangle.width + ball.radius + 1.0f;
+        float rightPaddleKnockback = paddle.rectangle.x - ball.radius - getWithFrameTime(1.0f);
+        ball.position.x = getValuePerBallDirection(ball, leftPaddleKnockback, rightPaddleKnockback);
+    }
+}
+
+void refreshVelocity(Ball& ball) {
+    bool ballOnTopCollision = ball.position.y >= (GetScreenHeight() - ball.radius);
+    bool ballOnBottomCollision = (ball.position.y <= ball.radius);
+    
+    if (ballOnTopCollision || ballOnBottomCollision) {
+        if (ballOnTopCollision) {
+            ball.position.y = GetScreenHeight() - ball.radius - 1.0f;
+        }
+        else {
+            ball.position.y = ball.radius + 1.0f;
+        }
+        ball.direction.y *= -1.0f;
+    };
+}
+
 void refreshToInitialPosition(Ball& ball) {
     const int BALL_APARITION_RANGE = 200;
     if (isBallOnEdge(ball)) {
@@ -69,4 +76,8 @@ void refreshToInitialPosition(Ball& ball) {
 
 void refreshPosition(Ball& ball) {
     ball.position = { ball.position.x + getWithFrameTime(ball.velocity * ball.direction.x), ball.position.y + getWithFrameTime(ball.velocity * ball.direction.y) };
+}
+
+void drawBall(Ball ball) {
+    DrawCircleV(ball.position, ball.radius, WHITE);
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <raylib.h>
 
 float getDistanceFromMiddle(Rectangle rectangle, Vector2 point);

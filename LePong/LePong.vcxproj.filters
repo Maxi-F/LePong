@@ -19,6 +19,12 @@
     <Filter Include="Archivos de encabezado\screens">
       <UniqueIdentifier>{7b0febdc-40fb-4631-842a-09c256a90f1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\entities">
+      <UniqueIdentifier>{4d4fba4e-37a9-4d07-8ad0-00c5b72534df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\entities">
+      <UniqueIdentifier>{5823ae5c-abd4-4e92-8a5c-c0ca5f47025d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,14 +39,17 @@
     <ClCompile Include="game.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="paddle.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ball.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="gameplay.cpp">
       <Filter>Archivos de origen\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="ball.cpp">
+      <Filter>Archivos de origen\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="paddle.cpp">
+      <Filter>Archivos de origen\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Archivos de origen\entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,17 +62,17 @@
     <ClInclude Include="game.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="paddle.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ball.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="gameplay.h">
       <Filter>Archivos de encabezado\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="ball.h">
+      <Filter>Archivos de encabezado\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="paddle.h">
+      <Filter>Archivos de encabezado\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Archivos de encabezado\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
