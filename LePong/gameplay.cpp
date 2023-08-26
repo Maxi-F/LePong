@@ -3,12 +3,6 @@
 #include "gameplay.h";
 #include <string>;
 
-void checkGameplayInputs(GameplayEntities* gameEntities) {
-    for (int i = 0; i < 2; i++) {
-        checkInput(gameEntities->players[i]);
-    }
-}
-
 GameplayEntities initGameplay() {
     int halfScreenWidth = getHalf(GetScreenWidth());
     int halfScreenHeight = getHalf(GetScreenHeight());
@@ -31,6 +25,7 @@ GameplayEntities initGameplay() {
         player1Paddle,
         KEY_W,
         KEY_S,
+        "Player 1",
         0
     };
 
@@ -43,6 +38,7 @@ GameplayEntities initGameplay() {
         player2Paddle,
         KEY_UP,
         KEY_DOWN,
+        "Player 2",
         0
     };
 
@@ -58,16 +54,36 @@ static void modifyScore(GameplayEntities* gameEntities) {
     }
 }
 
+static bool anyPlayerHasWon(GameplayEntities* gameEntities) {
+    return playerHasWon(gameEntities->players[0]) || playerHasWon(gameEntities->players[1]);
+}
+
+void checkGameplayInputs(GameplayEntities* gameEntities, Screens &screen) {
+    if (!anyPlayerHasWon(gameEntities)) {
+        for (int i = 0; i < 2; i++) {
+            checkInput(gameEntities->players[i]);
+        }
+    }
+    else {
+        if (IsKeyPressed(KEY_ENTER)) {
+            screen = Screens::MENU;
+        }
+    }
+}
+
 void checkGameplayCollisions(GameplayEntities* gameEntities) {
-    checkCollissionWith(gameEntities->players[0].paddle, gameEntities->ball);
-    checkCollissionWith(gameEntities->players[1].paddle, gameEntities->ball);
+    if (!anyPlayerHasWon(gameEntities)) {
+        checkCollissionWith(gameEntities->players[0].paddle, gameEntities->ball);
+        checkCollissionWith(gameEntities->players[1].paddle, gameEntities->ball);
 
-    refreshPosition(gameEntities->ball);
-    modifyScore(gameEntities);
+        refreshPosition(gameEntities->ball);
+        modifyScore(gameEntities);
 
-    refreshToInitialPosition(gameEntities->ball);
+        refreshToInitialPosition(gameEntities->ball);
 
-    refreshVelocity(gameEntities->ball);
+        refreshVelocity(gameEntities->ball);
+    }
+
 }
 
 static void drawField() {
@@ -97,6 +113,55 @@ static void drawGameplayUI(GameplayEntities gameEntities) {
     DrawText(std::to_string(gameEntities.players[1].score).c_str(), THREE_QUARTERS_SCREEN_WIDTH, SCORE_TEXT_MARGIN, SCORE_TEXT_FONT_SIZE, WHITE);
 }
 
+static void drawWinBox(Player player) {
+    const float RECTANGLE_WIDTH = 300.0f;
+    const float RECTANGLE_HEIGHT = 120.0f;
+    const float RECTANGLE_BORDER_STROKE = 5.0f;
+    const float RECTANGLE_X_POSITION = getHalf(GetScreenWidth()) - getHalf(RECTANGLE_WIDTH);
+    const float RECTANGLE_Y_POSITION = getHalf(GetScreenHeight()) - getHalf(RECTANGLE_HEIGHT);
+    const Color RECTANGLE_COLOR = { 96, 96, 255, 255 };
+    const Color RECTANGLE_BORDER_COLOR = { 52, 52, 125, 255 };
+
+    const float TEXT_PADDING = 20.0f;
+    const float WIN_TEXT_FONT_SIZE = 20.0f;
+    const float GO_BACK_FONT_SIZE = 16.0f;
+    std::string winText = player.name.append(" has won!");
+    const char* PRESS_ENTER_FOR_MENU_TEXT = "Press 'enter' to go back to menu";
+
+    Rectangle rectangle = {
+        RECTANGLE_X_POSITION,
+        RECTANGLE_Y_POSITION,
+        RECTANGLE_WIDTH,
+        RECTANGLE_HEIGHT
+    };
+
+    Rectangle insideRectangle = {
+        RECTANGLE_X_POSITION + RECTANGLE_BORDER_STROKE,
+        RECTANGLE_Y_POSITION + RECTANGLE_BORDER_STROKE,
+        RECTANGLE_WIDTH - RECTANGLE_BORDER_STROKE * 2,
+        RECTANGLE_HEIGHT - RECTANGLE_BORDER_STROKE * 2
+    };
+
+    DrawRectangleRec(rectangle, RECTANGLE_BORDER_COLOR);
+    DrawRectangleRec(insideRectangle, RECTANGLE_COLOR);
+    
+    DrawText(
+        winText.c_str(),
+        RECTANGLE_X_POSITION + TEXT_PADDING,
+        RECTANGLE_Y_POSITION + TEXT_PADDING,
+        WIN_TEXT_FONT_SIZE,
+        BLACK
+    );
+    
+    DrawText(
+        PRESS_ENTER_FOR_MENU_TEXT,
+        RECTANGLE_X_POSITION + TEXT_PADDING,
+        RECTANGLE_Y_POSITION + insideRectangle.height - TEXT_PADDING,
+        GO_BACK_FONT_SIZE,
+        BLACK
+    );
+}
+
 void drawGameplay(GameplayEntities gameEntities) {
     ClearBackground(BLACK);
     drawField();
@@ -105,4 +170,10 @@ void drawGameplay(GameplayEntities gameEntities) {
     drawBall(gameEntities.ball);
     drawPaddle(gameEntities.players[0].paddle);
     drawPaddle(gameEntities.players[1].paddle);
+    if (playerHasWon(gameEntities.players[0])) {
+        drawWinBox(gameEntities.players[0]);
+    }
+    else if (playerHasWon(gameEntities.players[1])) {
+        drawWinBox(gameEntities.players[1]);
+    }
 }

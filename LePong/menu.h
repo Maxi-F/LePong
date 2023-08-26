@@ -3,7 +3,8 @@
 #include "screens.h"
 
 enum Option {
-	PLAY = 0,
+	PLAY,
+	READ_CREDITS,
 	EXIT,
 	OPTIONS_QUANTITY
 };

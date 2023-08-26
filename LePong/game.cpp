@@ -23,7 +23,7 @@ static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntitie
         checkMenuInputAndCollision(screen, shouldClose, gameEntities.menu);
         break;
     case Screens::GAMEPLAY:
-        checkGameplayInputs(&gameEntities.gameplayEntities);
+        checkGameplayInputs(&gameEntities.gameplayEntities, screen);
         checkGameplayCollisions(&gameEntities.gameplayEntities);
         break;
     };

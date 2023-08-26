@@ -10,10 +10,13 @@ static const float OPTION_FONT_SIZE = 20.0f;
 static const float TOP_MARGIN = 200.0f;
 static const float OPTION_RECTANGLE_MARGIN = 25.0f;
 static const float OPTION_BOX_BORDER_WIDTH = 4.0f;
+static const float TITLE_TOP_MARGIN = 40.0f;
+static const float TITLE_FONT_SIZE = 50.0f;
 
 static void drawOptionBox(MenuOption option) {
 	if (option.isHovered) {
 		DrawRectangleRec(option.optionBox, PINK);
+		Color focusColor = { 184, 0, 0, 255 };
 
 		Rectangle insideRectangle = {
 			option.optionBox.x + OPTION_BOX_BORDER_WIDTH,
@@ -22,7 +25,7 @@ static void drawOptionBox(MenuOption option) {
 			option.optionBox.height - OPTION_BOX_BORDER_WIDTH * 2,
 		};
 
-		DrawRectangleRec(insideRectangle, RED);
+		DrawRectangleRec(insideRectangle, IsMouseButtonDown(MOUSE_BUTTON_LEFT) ? focusColor : RED);
 	}
 	else {
 		DrawRectangleRec(option.optionBox, RED);
@@ -47,6 +50,8 @@ static std::string optionToText(Option option) {
 			return "play";
 		case Option::EXIT:
 			return "Exit";
+		case Option::READ_CREDITS:
+			return "Credits";
 	}
 }
 
@@ -54,6 +59,9 @@ static void actionPerMenuOption(Option option, Screens& screen, bool& shouldClos
 	switch (option) {
 		case Option::PLAY:
 			screen = Screens::GAMEPLAY;
+			break;
+		case Option::READ_CREDITS:
+			screen = Screens::CREDITS;
 			break;
 		case Option::EXIT:
 			shouldClose = true;
@@ -82,10 +90,17 @@ Menu initMenu() {
 		};
 	}
 
-	return { { menuOptions[0], menuOptions[1] } };
+	return { { menuOptions[0], menuOptions[1], menuOptions[2] } };
 }
 
 void drawMenu(Menu menu) {
+	ClearBackground(BLACK);
+
+	const char* title = "LePong";
+	float titleLenght = MeasureText(title, TITLE_FONT_SIZE);
+
+	DrawText("LePong", getHalf(GetScreenWidth()) - getHalf(titleLenght), TITLE_TOP_MARGIN, TITLE_FONT_SIZE, WHITE);
+
 	for (int i = 0; i < Option::OPTIONS_QUANTITY; i++) {
 		drawOptionBox(menu.options[i]);
 		drawOptionText(menu.options[i].optionBox.y, menu.options[i].text.c_str());
