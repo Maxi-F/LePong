@@ -17,7 +17,8 @@ GameEntities initGameplay() {
 
     Ball ball = {
         initialBallPosition,
-        { getRandomNegativeOrPositive() * BALL_VELOCITY.x, getRandomNegativeOrPositive() * BALL_VELOCITY.y },
+        { getHalf(getRandomNegativeOrPositive()), getHalf(getRandomNegativeOrPositive()) },
+        BALL_VELOCITY,
         BALL_RADIUS
     };
 

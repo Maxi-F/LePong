@@ -29,7 +29,7 @@ bool checkRectangleCollision(Rectangle rectangle1, Rectangle rectangle2) {
         rectangle1TopEdge <= rectangle2BottomEdge;
 };
 
-float getHalf(int size) {
+float getHalf(float size) {
     return size / 2.0f;
 }
 

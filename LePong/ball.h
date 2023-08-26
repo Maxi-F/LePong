@@ -2,7 +2,8 @@
 
 struct Ball {
     Vector2 position;
-    Vector2 velocity;
+    Vector2 direction;
+    float velocity;
     float radius;
 };
 
