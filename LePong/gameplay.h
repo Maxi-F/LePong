@@ -3,12 +3,12 @@
 #include "ball.h";
 #include "player.h";
 
-struct GameEntities {
+struct GameplayEntities {
     Player players[2];
     Ball ball;
 };
 
-void checkGameplayInputs(GameEntities* gameEntities);
-GameEntities initGameplay();
-void checkGameplayCollisions(GameEntities* gameEntities);
-void drawGameplay(GameEntities gameEntities);
+void checkGameplayInputs(GameplayEntities* gameEntities);
+GameplayEntities initGameplay();
+void checkGameplayCollisions(GameplayEntities* gameEntities);
+void drawGameplay(GameplayEntities gameEntities);

@@ -3,13 +3,13 @@
 #include "gameplay.h";
 #include <string>;
 
-void checkGameplayInputs(GameEntities* gameEntities) {
+void checkGameplayInputs(GameplayEntities* gameEntities) {
     for (int i = 0; i < 2; i++) {
         checkInput(gameEntities->players[i]);
     }
 }
 
-GameEntities initGameplay() {
+GameplayEntities initGameplay() {
     int halfScreenWidth = getHalf(GetScreenWidth());
     int halfScreenHeight = getHalf(GetScreenHeight());
 
@@ -22,21 +22,25 @@ GameEntities initGameplay() {
         BALL_RADIUS
     };
 
+    Paddle player1Paddle = {
+        { PADDLE_MARGIN, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
+        PADDLE_VELOCITY,
+    };
+
     Player player1 = {
-        {
-            { PADDLE_MARGIN, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
-            PADDLE_VELOCITY,
-        },
+        player1Paddle,
         KEY_W,
         KEY_S,
         0
     };
 
+    Paddle player2Paddle = {
+        { GetScreenWidth() - PADDLE_MARGIN, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
+        PADDLE_VELOCITY,
+    };
+
     Player player2 = {
-        {
-            { GetScreenWidth() - PADDLE_MARGIN, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
-            PADDLE_VELOCITY,
-        },
+        player2Paddle,
         KEY_UP,
         KEY_DOWN,
         0
@@ -45,7 +49,7 @@ GameEntities initGameplay() {
     return { {player1, player2}, ball };
 }
 
-static void modifyScore(GameEntities* gameEntities) {
+static void modifyScore(GameplayEntities* gameEntities) {
     if (isBallOnLeftEdge(gameEntities->ball)) {
         gameEntities->players[1].score++;
     }
@@ -54,7 +58,7 @@ static void modifyScore(GameEntities* gameEntities) {
     }
 }
 
-void checkGameplayCollisions(GameEntities* gameEntities) {
+void checkGameplayCollisions(GameplayEntities* gameEntities) {
     checkCollissionWith(gameEntities->players[0].paddle, gameEntities->ball);
     checkCollissionWith(gameEntities->players[1].paddle, gameEntities->ball);
 
@@ -67,21 +71,23 @@ void checkGameplayCollisions(GameEntities* gameEntities) {
 }
 
 static void drawField() {
+    const float HALF_SCREEN_WIDTH = getHalf(GetScreenWidth());
+    const float HALF_SCREEN_HEIGHT = getHalf(GetScreenHeight());
+
     const float MID_FIELD_LINE_WIDTH = 5.0f;
     const float MID_FIELD_CIRCLE_DIAMETER = 54.0f;
     const float MID_FIELD_CIRCLE_STROKE_WIDTH = 4.0f;
-    const Rectangle MID_FIELD_LINE = { getHalf(GetScreenWidth()) - getHalf(MID_FIELD_LINE_WIDTH), 0, MID_FIELD_LINE_WIDTH, GetScreenHeight() };
+    const Rectangle MID_FIELD_LINE = { HALF_SCREEN_WIDTH - getHalf(MID_FIELD_LINE_WIDTH), 0, MID_FIELD_LINE_WIDTH, GetScreenHeight() };
     const Color FIELD_LINE_COLOR = { 143, 143, 143, 100 };
 
     DrawRectangleRec(MID_FIELD_LINE, FIELD_LINE_COLOR);
-    DrawCircle(getHalf(GetScreenWidth()), getHalf(GetScreenHeight()), MID_FIELD_CIRCLE_DIAMETER, BLACK);
-    DrawCircle(getHalf(GetScreenWidth()), getHalf(GetScreenHeight()), MID_FIELD_CIRCLE_DIAMETER, FIELD_LINE_COLOR);
-    DrawCircle(getHalf(GetScreenWidth()), getHalf(GetScreenHeight()), MID_FIELD_CIRCLE_DIAMETER - MID_FIELD_CIRCLE_STROKE_WIDTH, BLACK);
-    DrawCircle(getHalf(GetScreenWidth()), getHalf(GetScreenHeight()), MID_FIELD_LINE_WIDTH, FIELD_LINE_COLOR);
+    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_CIRCLE_DIAMETER, BLACK);
+    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_CIRCLE_DIAMETER, FIELD_LINE_COLOR);
+    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_CIRCLE_DIAMETER - MID_FIELD_CIRCLE_STROKE_WIDTH, BLACK);
+    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_LINE_WIDTH, FIELD_LINE_COLOR);
 }
 
-static void drawGameplayUI(GameEntities gameEntities) {
-    GetFontDefault();
+static void drawGameplayUI(GameplayEntities gameEntities) {
     const int SCORE_TEXT_FONT_SIZE = 50;
     const int SCORE_TEXT_MARGIN = 20;
     const float QUARTER_SCREEN_WIDTH = GetScreenWidth() / 4.0f;
@@ -91,7 +97,7 @@ static void drawGameplayUI(GameEntities gameEntities) {
     DrawText(std::to_string(gameEntities.players[1].score).c_str(), THREE_QUARTERS_SCREEN_WIDTH, SCORE_TEXT_MARGIN, SCORE_TEXT_FONT_SIZE, WHITE);
 }
 
-void drawGameplay(GameEntities gameEntities) {
+void drawGameplay(GameplayEntities gameEntities) {
     ClearBackground(BLACK);
     drawField();
     drawGameplayUI(gameEntities);

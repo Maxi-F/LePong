@@ -8,3 +8,4 @@ bool checkRectangleCollision(Rectangle rectangle1, Rectangle rectangle2);
 float clamp(float value, float min, float max);
 float getRandomNegativeOrPositive();
 float moduleOf(float value);
+bool checkPointToRectangleCollision(Rectangle rectangle, Vector2 point);

@@ -151,6 +151,7 @@
     <ClCompile Include="gameplay.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="constants.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="paddle.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -160,8 +161,10 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameplay.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="paddle.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="screens.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -29,6 +29,18 @@ bool checkRectangleCollision(Rectangle rectangle1, Rectangle rectangle2) {
         rectangle1TopEdge <= rectangle2BottomEdge;
 };
 
+bool checkPointToRectangleCollision(Rectangle rectangle, Vector2 point) {
+    float rectangleLeftEdge = rectangle.x;
+    float rectangleRightEdge = rectangle.x + rectangle.width;
+    float rectangleBottomEdge = rectangle.y + rectangle.height;
+    float rectangleTopEdge = rectangle.y;
+
+    return point.x >= rectangleLeftEdge &&
+        point.x <= rectangleRightEdge &&
+        point.y <= rectangleBottomEdge &&
+        point.y >= rectangleTopEdge;
+}
+
 float getHalf(float size) {
     return size / 2.0f;
 }
