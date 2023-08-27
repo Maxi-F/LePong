@@ -163,13 +163,13 @@ static void drawWinBox(Player player) {
 }
 
 void drawGameplay(GameplayEntities gameEntities) {
-    ClearBackground(BLACK);
     drawField();
     drawGameplayUI(gameEntities);
 
     drawBall(gameEntities.ball);
     drawPaddle(gameEntities.players[0].paddle);
     drawPaddle(gameEntities.players[1].paddle);
+
     if (playerHasWon(gameEntities.players[0])) {
         drawWinBox(gameEntities.players[0]);
     }

@@ -54,6 +54,9 @@
     <ClCompile Include="menu.cpp">
       <Filter>Archivos de origen\screens</Filter>
     </ClCompile>
+    <ClCompile Include="credits.cpp">
+      <Filter>Archivos de origen\screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -81,6 +84,9 @@
       <Filter>Archivos de encabezado\screens</Filter>
     </ClInclude>
     <ClInclude Include="screens.h">
+      <Filter>Archivos de encabezado\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="credits.h">
       <Filter>Archivos de encabezado\screens</Filter>
     </ClInclude>
   </ItemGroup>

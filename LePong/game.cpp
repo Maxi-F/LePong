@@ -1,5 +1,6 @@
 #include "raylib.h";
 #include "game.h";
+#include "menu.h";
 #include "screens.h";
 
 static GameEntities init() {
@@ -7,20 +8,22 @@ static GameEntities init() {
 
     InitWindow(ScreenDimensions.x, ScreenDimensions.y, "LePong");
 
-    GameplayEntities gameplayEntities = initGameplay();
     Menu menu = initMenu();
 
-    return { gameplayEntities, menu };
+    return { {}, menu, {} };
 }
 
 static void close() {
-    CloseWindow();
+    CloseWindow(); 
 }
 
 static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntities) {
     switch (screen) {
     case Screens::MENU:
-        checkMenuInputAndCollision(screen, shouldClose, gameEntities.menu);
+        checkMenuInputAndCollision(screen, shouldClose, gameEntities.menu, gameEntities);
+        break;
+    case Screens::CREDITS:
+        checkCreditsInputCollision(screen, gameEntities.creditsScreen);
         break;
     case Screens::GAMEPLAY:
         checkGameplayInputs(&gameEntities.gameplayEntities, screen);
@@ -32,10 +35,14 @@ static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntitie
 static void draw(Screens screen, GameEntities gameEntities) {
     BeginDrawing();
     GetFontDefault();
+    ClearBackground(BLACK);
 
     switch (screen) {
     case Screens::MENU:
         drawMenu(gameEntities.menu);
+        break;
+    case Screens::CREDITS:
+        drawCredits(gameEntities.creditsScreen);
         break;
     case Screens::GAMEPLAY:
         drawGameplay(gameEntities.gameplayEntities);

@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "utils.h"
 #include "menu.h"
+#include "game.h"
+#include "constants.h"
 #include <iostream>
 #include <string>
 
@@ -9,23 +11,21 @@ static const float OPTION_RECTANGLE_HEIGHT = 50.0f;
 static const float OPTION_FONT_SIZE = 20.0f;
 static const float TOP_MARGIN = 200.0f;
 static const float OPTION_RECTANGLE_MARGIN = 25.0f;
-static const float OPTION_BOX_BORDER_WIDTH = 4.0f;
 static const float TITLE_TOP_MARGIN = 40.0f;
 static const float TITLE_FONT_SIZE = 50.0f;
 
 static void drawOptionBox(MenuOption option) {
 	if (option.isHovered) {
 		DrawRectangleRec(option.optionBox, PINK);
-		Color focusColor = { 184, 0, 0, 255 };
 
 		Rectangle insideRectangle = {
-			option.optionBox.x + OPTION_BOX_BORDER_WIDTH,
-			option.optionBox.y + OPTION_BOX_BORDER_WIDTH,
-			option.optionBox.width - OPTION_BOX_BORDER_WIDTH * 2,
-			option.optionBox.height - OPTION_BOX_BORDER_WIDTH * 2,
+			option.optionBox.x + BOX_BORDER_WIDTH,
+			option.optionBox.y + BOX_BORDER_WIDTH,
+			option.optionBox.width - BOX_BORDER_WIDTH * 2,
+			option.optionBox.height - BOX_BORDER_WIDTH * 2,
 		};
 
-		DrawRectangleRec(insideRectangle, IsMouseButtonDown(MOUSE_BUTTON_LEFT) ? focusColor : RED);
+		DrawRectangleRec(insideRectangle, IsMouseButtonDown(MOUSE_BUTTON_LEFT) ? FOCUS_COLOR : RED);
 	}
 	else {
 		DrawRectangleRec(option.optionBox, RED);
@@ -55,13 +55,15 @@ static std::string optionToText(Option option) {
 	}
 }
 
-static void actionPerMenuOption(Option option, Screens& screen, bool& shouldClose) {
+static void actionPerMenuOption(Option option, Screens& screen, bool& shouldClose, GameEntities& gameplayEntities) {
 	switch (option) {
 		case Option::PLAY:
 			screen = Screens::GAMEPLAY;
+			gameplayEntities.gameplayEntities = initGameplay();
 			break;
 		case Option::READ_CREDITS:
 			screen = Screens::CREDITS;
+			gameplayEntities.creditsScreen = initCredits();
 			break;
 		case Option::EXIT:
 			shouldClose = true;
@@ -94,8 +96,6 @@ Menu initMenu() {
 }
 
 void drawMenu(Menu menu) {
-	ClearBackground(BLACK);
-
 	const char* title = "LePong";
 	float titleLenght = MeasureText(title, TITLE_FONT_SIZE);
 
@@ -107,7 +107,7 @@ void drawMenu(Menu menu) {
 	}
 }
 
-void checkMenuInputAndCollision(Screens& screen, bool& shouldClose, Menu& menu) {
+void checkMenuInputAndCollision(Screens& screen, bool& shouldClose, Menu& menu, GameEntities& gameEntities) {
 	Vector2 mousePosition = GetMousePosition();
 
 	for (int i = 0; i < Option::OPTIONS_QUANTITY; i++) {
@@ -115,7 +115,7 @@ void checkMenuInputAndCollision(Screens& screen, bool& shouldClose, Menu& menu) 
 			menu.options[i].isHovered = true;
 
 			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
-				actionPerMenuOption(menu.options[i].option, screen, shouldClose);
+				actionPerMenuOption(menu.options[i].option, screen, shouldClose, gameEntities);
 			}
 		}
 		else {
