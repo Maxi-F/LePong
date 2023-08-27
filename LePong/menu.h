@@ -6,7 +6,8 @@
 #include "credits.h"
 
 enum Option {
-	PLAY,
+	PLAY_PVP,
+	PLAY_CPU,
 	READ_CREDITS,
 	EXIT,
 	OPTIONS_QUANTITY

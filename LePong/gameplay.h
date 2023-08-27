@@ -10,6 +10,7 @@ struct GameplayEntities {
 };
 
 void checkGameplayInputs(GameplayEntities* gameEntities, Screens& screen);
-GameplayEntities initGameplay();
+GameplayEntities initGameplay(bool isAgainstCpu);
+void updateCpuMovement(GameplayEntities* gameplayEntities);
 void checkGameplayCollisions(GameplayEntities* gameEntities);
 void drawGameplay(GameplayEntities gameEntities);

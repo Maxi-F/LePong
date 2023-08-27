@@ -9,7 +9,7 @@
 static const float OPTION_RECTANGLE_WIDTH = 300.0f;
 static const float OPTION_RECTANGLE_HEIGHT = 50.0f;
 static const float OPTION_FONT_SIZE = 20.0f;
-static const float TOP_MARGIN = 200.0f;
+static const float TOP_MARGIN = 150.0f;
 static const float OPTION_RECTANGLE_MARGIN = 25.0f;
 static const float TITLE_TOP_MARGIN = 40.0f;
 static const float TITLE_FONT_SIZE = 50.0f;
@@ -46,8 +46,10 @@ static void drawOptionText(float yPosition, const char* text) {
 
 static std::string optionToText(Option option) {
 	switch (option) {
-		case Option::PLAY:
-			return "play";
+		case Option::PLAY_PVP:
+			return "Player vs Player";
+		case Option::PLAY_CPU:
+			return "Player vs CPU";
 		case Option::EXIT:
 			return "Exit";
 		case Option::READ_CREDITS:
@@ -57,9 +59,10 @@ static std::string optionToText(Option option) {
 
 static void actionPerMenuOption(Option option, Screens& screen, bool& shouldClose, GameEntities& gameplayEntities) {
 	switch (option) {
-		case Option::PLAY:
+		case Option::PLAY_PVP:
+		case Option::PLAY_CPU:
 			screen = Screens::GAMEPLAY;
-			gameplayEntities.gameplayEntities = initGameplay();
+			gameplayEntities.gameplayEntities = initGameplay(option == Option::PLAY_CPU);
 			break;
 		case Option::READ_CREDITS:
 			screen = Screens::CREDITS;
@@ -92,7 +95,7 @@ Menu initMenu() {
 		};
 	}
 
-	return { { menuOptions[0], menuOptions[1], menuOptions[2] } };
+	return { { menuOptions[0], menuOptions[1], menuOptions[2], menuOptions[3] } };
 }
 
 void drawMenu(Menu menu) {

@@ -3,7 +3,7 @@
 #include "gameplay.h";
 #include <string>;
 
-GameplayEntities initGameplay() {
+GameplayEntities initGameplay(bool isAgainstCpu) {
     int halfScreenWidth = getHalf(GetScreenWidth());
     int halfScreenHeight = getHalf(GetScreenHeight());
 
@@ -26,6 +26,7 @@ GameplayEntities initGameplay() {
         KEY_W,
         KEY_S,
         "Player 1",
+        false,
         0
     };
 
@@ -38,7 +39,8 @@ GameplayEntities initGameplay() {
         player2Paddle,
         KEY_UP,
         KEY_DOWN,
-        "Player 2",
+        isAgainstCpu ? "CPU" : "Player 2",
+        isAgainstCpu,
         0
     };
 
@@ -70,6 +72,14 @@ void checkGameplayInputs(GameplayEntities* gameEntities, Screens &screen) {
         }
     }
 }
+
+void updateCpuMovement(GameplayEntities* gameplayEntities) {
+    if (!anyPlayerHasWon(gameplayEntities)) {
+        for (int i = 0; i < 2; i++) {
+            updateCpuPlayerMovement(gameplayEntities->players[i], gameplayEntities->ball);
+        }
+    }
+    }
 
 void checkGameplayCollisions(GameplayEntities* gameEntities) {
     if (!anyPlayerHasWon(gameEntities)) {

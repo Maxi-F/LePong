@@ -1,6 +1,8 @@
 #pragma once
 #include "raylib.h"
 
+struct Ball;
+
 struct Paddle {
     Rectangle rectangle;
     int velocity;
@@ -20,3 +22,4 @@ bool isPaddleNotOnBottom(Paddle paddle);
 
 void drawPaddle(Paddle paddle);
 
+void updatePaddlePositionPerBall(Paddle& paddle, Ball ball);

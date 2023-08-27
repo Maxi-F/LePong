@@ -27,6 +27,7 @@ static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntitie
         break;
     case Screens::GAMEPLAY:
         checkGameplayInputs(&gameEntities.gameplayEntities, screen);
+        updateCpuMovement(&gameEntities.gameplayEntities);
         checkGameplayCollisions(&gameEntities.gameplayEntities);
         break;
     };
