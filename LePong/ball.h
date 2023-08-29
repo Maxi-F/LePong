@@ -6,6 +6,7 @@ struct Ball {
     Vector2 direction;
     float velocity;
     float radius;
+    int points;
 };
 
 extern const float BALL_RADIUS;
@@ -20,3 +21,5 @@ void refreshVelocity(Ball& ball);
 void refreshPosition(Ball& ball);
 void refreshToInitialPosition(Ball& ball);
 void drawBall(Ball ball);
+void addPoints(Ball& ball);
+bool checkBallCollisionWith(Rectangle rectangle, Ball ball);

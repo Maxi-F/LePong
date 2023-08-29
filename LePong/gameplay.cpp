@@ -13,7 +13,8 @@ GameplayEntities initGameplay(bool isAgainstCpu) {
         initialBallPosition,
         { getHalf(getRandomNegativeOrPositive()), getHalf(getRandomNegativeOrPositive()) },
         BALL_VELOCITY,
-        BALL_RADIUS
+        BALL_RADIUS,
+        1
     };
 
     Paddle player1Paddle = {
@@ -31,7 +32,7 @@ GameplayEntities initGameplay(bool isAgainstCpu) {
     };
 
     Paddle player2Paddle = {
-        { GetScreenWidth() - PADDLE_MARGIN, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
+        { GetScreenWidth() - PADDLE_MARGIN - PADDLE_SIZE.x, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
         PADDLE_VELOCITY,
     };
 
@@ -44,15 +45,28 @@ GameplayEntities initGameplay(bool isAgainstCpu) {
         0
     };
 
-    return { {player1, player2}, ball };
+    Timer timer;
+
+    StartTimer(&timer, GetRandomValue(5, 10));
+
+    return { {player1, player2}, ball, { PowerUpType::EMPTY }, timer };
 }
 
 static void modifyScore(GameplayEntities* gameEntities) {
-    if (isBallOnLeftEdge(gameEntities->ball)) {
-        gameEntities->players[1].score++;
-    }
-    else if (isBallOnRightEdge(gameEntities->ball)) {
-        gameEntities->players[0].score++;
+    if (isBallOnLeftEdge(gameEntities->ball) || isBallOnRightEdge(gameEntities->ball)) {
+        if (isBallOnLeftEdge(gameEntities->ball)) {
+            gameEntities->players[1].score += gameEntities->ball.points;
+        }
+        else {
+            gameEntities->players[0].score += gameEntities->ball.points;
+        }
+        gameEntities->ball.points = 1;
+        gameEntities->powerUp = { PowerUpType::EMPTY };
+        StartTimer(&gameEntities->timerForPowerUp, GetRandomValue(5, 10));
+
+        for (int i = 0; i < 2; i++) {
+            resetPaddle(gameEntities->players[i].paddle);
+        }
     }
 }
 
@@ -79,7 +93,20 @@ void updateCpuMovement(GameplayEntities* gameplayEntities) {
             updateCpuPlayerMovement(gameplayEntities->players[i], gameplayEntities->ball);
         }
     }
+}
+
+void updatePowerUp(GameplayEntities& gameEntities) {
+    if (TimerDone(gameEntities.timerForPowerUp)) {
+        generateRandomPowerUp(gameEntities.powerUp);
+        StartTimer(&gameEntities.timerForPowerUp, GetRandomValue(10, 15));
     }
+    else if (checkBallCollisionWith(gameEntities.powerUp.rectangle, gameEntities.ball)) {
+        int player = gameEntities.ball.direction.x > 0 ? 0 : 1;
+        checkPowerUpCollision(gameEntities.powerUp, gameEntities.ball, gameEntities.players[player].paddle);
+        gameEntities.powerUp = { PowerUpType::EMPTY };
+        StartTimer(&gameEntities.timerForPowerUp, GetRandomValue(10, 15));
+    }
+};
 
 void checkGameplayCollisions(GameplayEntities* gameEntities) {
     if (!anyPlayerHasWon(gameEntities)) {
@@ -174,6 +201,11 @@ static void drawWinBox(Player player) {
 
 void drawGameplay(GameplayEntities gameEntities) {
     drawField();
+    
+    if (!isNotSetted(gameEntities.powerUp)) {
+        drawPowerUp(gameEntities.powerUp);
+    }
+
     drawGameplayUI(gameEntities);
 
     drawBall(gameEntities.ball);

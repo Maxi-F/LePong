@@ -155,6 +155,8 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="paddle.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="powerUp.cpp" />
+    <ClCompile Include="timer.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,7 +168,9 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="paddle.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="powerUp.h" />
     <ClInclude Include="screens.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

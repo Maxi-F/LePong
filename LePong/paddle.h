@@ -16,7 +16,13 @@ void moveUp(Paddle& paddle);
 
 void moveDown(Paddle& paddle);
 
+void enlarge(Paddle& paddle);
+
+void reduce(Paddle& paddle);
+
 bool isPaddleNotOnTop(Paddle paddle);
+
+void resetPaddle(Paddle& paddle);
 
 bool isPaddleNotOnBottom(Paddle paddle);
 

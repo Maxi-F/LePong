@@ -5,12 +5,39 @@
 #include <iostream>
 using namespace std;
 
-extern const Vector2 PADDLE_SIZE = { 5.0f, 80.0f };
+extern const Vector2 PADDLE_SIZE = { 15.0f, 80.0f };
 extern const float PADDLE_MARGIN = 40.0f;
 extern const float PADDLE_VELOCITY = 400.0f;
 
 void moveUp(Paddle& paddle) {
     paddle.rectangle.y -= getWithFrameTime(paddle.velocity);
+}
+
+void enlarge(Paddle& paddle) {
+    paddle.rectangle = {
+        paddle.rectangle.x,
+        paddle.rectangle.y,
+        paddle.rectangle.width,
+        PADDLE_SIZE.y + 40.0f
+    };
+}
+
+void reduce(Paddle& paddle) {
+    paddle.rectangle = {
+        paddle.rectangle.x,
+        paddle.rectangle.y,
+        paddle.rectangle.width,
+        PADDLE_SIZE.y - 20.0f
+    };
+}
+
+void resetPaddle(Paddle& paddle) {
+    paddle.rectangle = {
+        paddle.rectangle.x,
+        paddle.rectangle.y,
+        paddle.rectangle.width,
+        PADDLE_SIZE.y
+   };
 }
 
 void moveDown(Paddle& paddle) {

@@ -28,12 +28,21 @@ bool isBallOnLeftEdge(Ball& ball) {
     return ball.position.x <= ball.radius;
 }
 
+void addPoints(Ball& ball) {
+    ball.points = 2;
+};
+
+
 bool isBallOnRightEdge(Ball& ball) {
     return ball.position.x >= (GetScreenWidth() - ball.radius);
 }
 
 static bool isBallOnEdge(Ball& ball) {
     return isBallOnLeftEdge(ball) || isBallOnRightEdge(ball);
+}
+
+bool checkBallCollisionWith(Rectangle rectangle, Ball ball) {
+    return checkRectangleCollision(rectangle, getCollisionBox(ball));
 }
 
 void checkCollissionWith(Paddle paddle, Ball& ball) {
