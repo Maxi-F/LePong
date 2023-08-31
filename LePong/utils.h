@@ -9,3 +9,4 @@ float clamp(float value, float min, float max);
 float getRandomNegativeOrPositive();
 float moduleOf(float value);
 bool checkPointToRectangleCollision(Rectangle rectangle, Vector2 point);
+int roundUp(int numberToRound, int multiple);

@@ -125,4 +125,6 @@ void checkMenuInputAndCollision(Screens& screen, bool& shouldClose, Menu& menu, 
 			menu.options[i].isHovered = false;
 		}
 	};
+
+	shouldClose = shouldClose || WindowShouldClose();
 }

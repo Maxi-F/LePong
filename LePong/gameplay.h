@@ -11,9 +11,10 @@ struct GameplayEntities {
     Ball ball;
     PowerUp powerUp;
     Timer timerForPowerUp;
+    bool isPaused;
 };
 
-void checkGameplayInputs(GameplayEntities* gameEntities, Screens& screen);
+void checkGameplayInputs(GameplayEntities* gameEntities, Screens& screen, bool& shouldClose);
 GameplayEntities initGameplay(bool isAgainstCpu);
 void updateCpuMovement(GameplayEntities* gameplayEntities);
 void checkGameplayCollisions(GameplayEntities* gameEntities);

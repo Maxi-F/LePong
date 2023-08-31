@@ -26,7 +26,7 @@ static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntitie
         checkCreditsInputCollision(screen, gameEntities.creditsScreen);
         break;
     case Screens::GAMEPLAY:
-        checkGameplayInputs(&gameEntities.gameplayEntities, screen);
+        checkGameplayInputs(&gameEntities.gameplayEntities, screen, shouldClose);
         updateCpuMovement(&gameEntities.gameplayEntities);
         updatePowerUp(gameEntities.gameplayEntities);
         checkGameplayCollisions(&gameEntities.gameplayEntities);
@@ -59,7 +59,9 @@ void executeGameLoop() {
     Screens screen = Screens::MENU;
     bool shouldClose = false;
 
-    while (!WindowShouldClose() && !shouldClose)
+    SetExitKey(0);
+
+    while (!shouldClose)
     {
         update(screen, shouldClose, gameEntities);
         

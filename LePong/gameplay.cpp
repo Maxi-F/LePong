@@ -2,6 +2,7 @@
 #include "constants.h";
 #include "gameplay.h";
 #include <string>;
+#include <iostream>;
 
 GameplayEntities initGameplay(bool isAgainstCpu) {
     int halfScreenWidth = getHalf(GetScreenWidth());
@@ -74,11 +75,34 @@ static bool anyPlayerHasWon(GameplayEntities* gameEntities) {
     return playerHasWon(gameEntities->players[0]) || playerHasWon(gameEntities->players[1]);
 }
 
-void checkGameplayInputs(GameplayEntities* gameEntities, Screens &screen) {
+void checkGameplayInputs(GameplayEntities* gameEntities, Screens &screen, bool& shouldClose) {
+    if (WindowShouldClose()) {
+        shouldClose = true;
+        return;
+    }
+
     if (!anyPlayerHasWon(gameEntities)) {
+        if (gameEntities->isPaused) {
+            if (IsKeyPressed(KEY_ESCAPE)) {
+                gameEntities->isPaused = false;
+                UnPauseTimer(&gameEntities->timerForPowerUp);
+            }
+            else if (IsKeyPressed(KEY_ENTER)) {
+                screen = Screens::MENU;
+            }
+            return;
+        }
+
+        if (IsKeyPressed(KEY_ESCAPE)) {
+            gameEntities->isPaused = true;
+            PauseTimer(&gameEntities->timerForPowerUp);
+            return;
+        }
+
         for (int i = 0; i < 2; i++) {
             checkInput(gameEntities->players[i]);
         }
+
     }
     else {
         if (IsKeyPressed(KEY_ENTER)) {
@@ -88,7 +112,7 @@ void checkGameplayInputs(GameplayEntities* gameEntities, Screens &screen) {
 }
 
 void updateCpuMovement(GameplayEntities* gameplayEntities) {
-    if (!anyPlayerHasWon(gameplayEntities)) {
+    if (!anyPlayerHasWon(gameplayEntities) && !gameplayEntities->isPaused) {
         for (int i = 0; i < 2; i++) {
             updateCpuPlayerMovement(gameplayEntities->players[i], gameplayEntities->ball);
         }
@@ -100,7 +124,7 @@ void updatePowerUp(GameplayEntities& gameEntities) {
         generateRandomPowerUp(gameEntities.powerUp);
         StartTimer(&gameEntities.timerForPowerUp, GetRandomValue(10, 15));
     }
-    else if (checkBallCollisionWith(gameEntities.powerUp.rectangle, gameEntities.ball)) {
+    else if (checkBallCollisionWith(gameEntities.powerUp.rectangle, gameEntities.ball) && !gameEntities.isPaused) {
         int player = gameEntities.ball.direction.x > 0 ? 0 : 1;
         checkPowerUpCollision(gameEntities.powerUp, gameEntities.ball, gameEntities.players[player].paddle);
         gameEntities.powerUp = { PowerUpType::EMPTY };
@@ -109,7 +133,7 @@ void updatePowerUp(GameplayEntities& gameEntities) {
 };
 
 void checkGameplayCollisions(GameplayEntities* gameEntities) {
-    if (!anyPlayerHasWon(gameEntities)) {
+    if (!anyPlayerHasWon(gameEntities) && !gameEntities->isPaused) {
         checkCollissionWith(gameEntities->players[0].paddle, gameEntities->ball);
         checkCollissionWith(gameEntities->players[1].paddle, gameEntities->ball);
 
@@ -150,7 +174,7 @@ static void drawGameplayUI(GameplayEntities gameEntities) {
     DrawText(std::to_string(gameEntities.players[1].score).c_str(), THREE_QUARTERS_SCREEN_WIDTH, SCORE_TEXT_MARGIN, SCORE_TEXT_FONT_SIZE, WHITE);
 }
 
-static void drawWinBox(Player player) {
+static void drawCenterBox(const char* upperText, const char* bottomText) {
     const float RECTANGLE_WIDTH = 300.0f;
     const float RECTANGLE_HEIGHT = 120.0f;
     const float RECTANGLE_BORDER_STROKE = 5.0f;
@@ -162,9 +186,7 @@ static void drawWinBox(Player player) {
     const float TEXT_PADDING = 20.0f;
     const float WIN_TEXT_FONT_SIZE = 20.0f;
     const float GO_BACK_FONT_SIZE = 16.0f;
-    std::string winText = player.name.append(" has won!");
-    const char* PRESS_ENTER_FOR_MENU_TEXT = "Press 'enter' to go back to menu";
-
+   
     Rectangle rectangle = {
         RECTANGLE_X_POSITION,
         RECTANGLE_Y_POSITION,
@@ -181,22 +203,35 @@ static void drawWinBox(Player player) {
 
     DrawRectangleRec(rectangle, RECTANGLE_BORDER_COLOR);
     DrawRectangleRec(insideRectangle, RECTANGLE_COLOR);
-    
+
     DrawText(
-        winText.c_str(),
+        upperText,
         RECTANGLE_X_POSITION + TEXT_PADDING,
         RECTANGLE_Y_POSITION + TEXT_PADDING,
         WIN_TEXT_FONT_SIZE,
         BLACK
     );
-    
+
+    Vector2 bottomTextMeasures = MeasureTextEx(GetFontDefault(), bottomText, GO_BACK_FONT_SIZE, (3 * GO_BACK_FONT_SIZE) / 2);
+
     DrawText(
-        PRESS_ENTER_FOR_MENU_TEXT,
+        bottomText,
         RECTANGLE_X_POSITION + TEXT_PADDING,
-        RECTANGLE_Y_POSITION + insideRectangle.height - TEXT_PADDING,
+        RECTANGLE_Y_POSITION + insideRectangle.height - roundUp(bottomTextMeasures.y, TEXT_PADDING),
         GO_BACK_FONT_SIZE,
         BLACK
     );
+}
+
+static void drawWinBox(Player player) {
+    std::string winText = player.name.append(" has won!");
+    const char* PRESS_ENTER_FOR_MENU_TEXT = "Press 'enter' to go back to menu";
+
+    drawCenterBox(winText.c_str(), PRESS_ENTER_FOR_MENU_TEXT);
+}
+
+static void drawPauseBox() {
+    drawCenterBox("Paused", "Press ESC to unpause\nENTER for Menu");
 }
 
 void drawGameplay(GameplayEntities gameEntities) {
@@ -215,6 +250,11 @@ void drawGameplay(GameplayEntities gameEntities) {
     if (playerHasWon(gameEntities.players[0])) {
         drawWinBox(gameEntities.players[0]);
     }
+
+    if (gameEntities.isPaused) {
+        drawPauseBox();
+    }
+
     else if (playerHasWon(gameEntities.players[1])) {
         drawWinBox(gameEntities.players[1]);
     }

@@ -10,6 +10,18 @@ float moduleOf(float value) {
     return value < 0 ? -value : value;
 }
 
+int roundUp(int numToRound, int multiple)
+{
+    if (multiple == 0)
+        return numToRound;
+
+    int remainder = numToRound % multiple;
+    if (remainder == 0)
+        return numToRound;
+
+    return numToRound + multiple - remainder;
+}
+
 bool checkRectangleCollision(Rectangle rectangle1, Rectangle rectangle2) {
     float rectangle1LeftEdge = rectangle1.x;
     float rectangle1RightEdge = rectangle1.x + rectangle1.width;
