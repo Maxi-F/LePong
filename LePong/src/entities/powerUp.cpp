@@ -1,5 +1,5 @@
 #include "powerUp.h"
-#include "utils.h"
+#include "../utils.h"
 
 void checkPowerUpCollision(PowerUp powerUp, Ball& ball, Paddle& paddle) {
 	switch (powerUp.type) {

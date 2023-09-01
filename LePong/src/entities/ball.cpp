@@ -1,8 +1,8 @@
 #include "raylib.h"
 #include "paddle.h"
 #include "ball.h"
-#include "utils.h"
-#include "constants.h"
+#include "../utils.h"
+#include "../constants.h"
 
 extern const float BALL_RADIUS = 5.0f;
 extern const float BALL_VELOCITY = 500.0f;

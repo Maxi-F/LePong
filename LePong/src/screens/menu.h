@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "screens.h"
-#include "game.h"
+#include "../screens.h"
+#include "../game.h"
 #include "gameplay.h"
 #include "credits.h"
 

@@ -1,5 +1,5 @@
-#include "utils.h";
-#include "constants.h";
+#include "../utils.h";
+#include "../constants.h";
 #include "gameplay.h";
 #include <string>;
 #include <iostream>;

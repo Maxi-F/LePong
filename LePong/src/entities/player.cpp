@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "player.h"
 #include "ball.h"
-#include "constants.h"
+#include "../constants.h"
 
 void checkInput(Player& player) {
 	if (!player.isCpu) {

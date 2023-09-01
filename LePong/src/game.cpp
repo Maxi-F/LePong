@@ -1,6 +1,6 @@
 #include "raylib.h";
 #include "game.h";
-#include "menu.h";
+#include "screens/menu.h";
 #include "screens.h";
 
 static GameEntities init() {

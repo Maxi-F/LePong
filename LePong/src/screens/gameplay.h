@@ -1,10 +1,10 @@
 #pragma once
-#include "paddle.h";
-#include "ball.h";
-#include "powerUp.h";
-#include "player.h";
-#include "screens.h";
-#include "timer.h";
+#include "../entities/paddle.h";
+#include "../entities/ball.h";
+#include "../entities/powerUp.h";
+#include "../entities/player.h";
+#include "../screens.h";
+#include "../timer.h";
 
 struct GameplayEntities {
     Player players[2];

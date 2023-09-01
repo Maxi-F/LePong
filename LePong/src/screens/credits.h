@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
 #include <string>
-#include "screens.h"
+#include "../screens.h"
 
 #define CREDITS_SECTIONS 1
 

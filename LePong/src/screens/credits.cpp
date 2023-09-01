@@ -1,8 +1,8 @@
 #include "credits.h"
 #include "raylib.h"
-#include "utils.h"
-#include "constants.h"
-#include "screens.h"
+#include "../utils.h"
+#include "../constants.h"
+#include "../screens.h"
 
 static const float X_PADDING = 50.0f;
 static const float Y_PADDING = 80.0f;

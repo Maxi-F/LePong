@@ -1,8 +1,8 @@
 #include "raylib.h"
-#include "utils.h"
+#include "../utils.h"
 #include "menu.h"
-#include "game.h"
-#include "constants.h"
+#include "../game.h"
+#include "../constants.h"
 #include <iostream>
 #include <string>
 

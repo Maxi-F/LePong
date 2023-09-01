@@ -18,6 +18,34 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\constants.cpp" />
+    <ClCompile Include="src\entities\ball.cpp" />
+    <ClCompile Include="src\entities\paddle.cpp" />
+    <ClCompile Include="src\entities\player.cpp" />
+    <ClCompile Include="src\entities\powerUp.cpp" />
+    <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\screens\credits.cpp" />
+    <ClCompile Include="src\screens\gameplay.cpp" />
+    <ClCompile Include="src\screens\menu.cpp" />
+    <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\entities\ball.h" />
+    <ClInclude Include="src\entities\paddle.h" />
+    <ClInclude Include="src\entities\player.h" />
+    <ClInclude Include="src\entities\powerUp.h" />
+    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\screens.h" />
+    <ClInclude Include="src\screens\credits.h" />
+    <ClInclude Include="src\screens\gameplay.h" />
+    <ClInclude Include="src\screens\menu.h" />
+    <ClInclude Include="src\timer.h" />
+    <ClInclude Include="src\utils.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -149,34 +177,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="ball.cpp" />
-    <ClCompile Include="credits.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="gameplay.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="constants.cpp" />
-    <ClCompile Include="menu.cpp" />
-    <ClCompile Include="paddle.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="powerUp.cpp" />
-    <ClCompile Include="timer.cpp" />
-    <ClCompile Include="utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ball.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="credits.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="gameplay.h" />
-    <ClInclude Include="menu.h" />
-    <ClInclude Include="paddle.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="powerUp.h" />
-    <ClInclude Include="screens.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="utils.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "paddle.h"
 #include "ball.h"
-#include "utils.h"
+#include "../utils.h"
 #include <iostream>
 using namespace std;
 
