@@ -2,6 +2,7 @@
 #include "paddle.h"
 #include "ball.h"
 #include "../utils.h"
+#include "../constants.h"
 #include <iostream>
 using namespace std;
 
@@ -45,21 +46,45 @@ void moveDown(Paddle& paddle) {
 }
 
 bool isPaddleNotOnTop(Paddle paddle) {
-    return paddle.rectangle.y >= 0;
+    return paddle.rectangle.y >= -getHalf(FIELD_DIMENSIONS.y);
 }
 
 bool isPaddleNotOnBottom(Paddle paddle) {
-    return paddle.rectangle.y <= GetScreenHeight() - paddle.rectangle.height;
+    return paddle.rectangle.y <= getHalf(FIELD_DIMENSIONS.y) - paddle.rectangle.height;
 }
 
 void drawPaddle(Paddle paddle) {
-    DrawRectangleRec(paddle.rectangle, PINK);
+    DrawCubeV(
+        {
+            paddle.rectangle.x + getHalf(paddle.rectangle.width),
+            0,
+            paddle.rectangle.y + getHalf(paddle.rectangle.height)
+        }, {
+            paddle.rectangle.width,
+            10.0f,
+            paddle.rectangle.height
+        },
+        PINK
+    );
+
+    DrawCubeWiresV(
+        {
+            paddle.rectangle.x + getHalf(paddle.rectangle.width),
+            0,
+            paddle.rectangle.y + getHalf(paddle.rectangle.height)
+        }, {
+            paddle.rectangle.width,
+            10.0f,
+            paddle.rectangle.height
+        },
+        RED
+    );
 }
 
 void updatePaddlePositionPerBall(Paddle& paddle, Ball ball) {
     float quarterPaddlePosition = paddle.rectangle.y + (paddle.rectangle.height / 4.0f);
     float threeQuartersPaddlePosition = paddle.rectangle.y + ( paddle.rectangle.height * 3.0f / 4.0f);
 
-    if (isPaddleNotOnTop(paddle) && ball.position.y <= quarterPaddlePosition) moveUp(paddle);
-    if (isPaddleNotOnBottom(paddle) && ball.position.y >= threeQuartersPaddlePosition) moveDown(paddle);
+    if (isPaddleNotOnTop(paddle) && ball.position.z <= quarterPaddlePosition) moveUp(paddle);
+    if (isPaddleNotOnBottom(paddle) && ball.position.z >= threeQuartersPaddlePosition) moveDown(paddle);
 }

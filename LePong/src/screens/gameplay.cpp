@@ -2,24 +2,23 @@
 #include "../constants.h";
 #include "gameplay.h";
 #include <string>;
-#include <iostream>;
 
 GameplayEntities initGameplay(bool isAgainstCpu) {
-    int halfScreenWidth = getHalf(GetScreenWidth());
-    int halfScreenHeight = getHalf(GetScreenHeight());
+    int halfFieldWidth = getHalf(FIELD_DIMENSIONS.x);
+    int halfFieldHeight = getHalf(FIELD_DIMENSIONS.y);
 
-    Vector2 initialBallPosition = { halfScreenWidth, halfScreenHeight };
+    Vector3 initialBallPosition = { 0, 0, 0 };
 
     Ball ball = {
         initialBallPosition,
-        { getHalf(getRandomNegativeOrPositive()), getHalf(getRandomNegativeOrPositive()) },
+        { getHalf(getRandomNegativeOrPositive()), 0, getHalf(getRandomNegativeOrPositive()) },
         BALL_VELOCITY,
         BALL_RADIUS,
         1
     };
 
     Paddle player1Paddle = {
-        { PADDLE_MARGIN, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
+        { -halfFieldWidth + PADDLE_MARGIN, 0, PADDLE_SIZE.x, PADDLE_SIZE.y },
         PADDLE_VELOCITY,
     };
 
@@ -33,7 +32,7 @@ GameplayEntities initGameplay(bool isAgainstCpu) {
     };
 
     Paddle player2Paddle = {
-        { GetScreenWidth() - PADDLE_MARGIN - PADDLE_SIZE.x, halfScreenHeight - getHalf(PADDLE_SIZE.y), PADDLE_SIZE.x, PADDLE_SIZE.y },
+        { halfFieldWidth - PADDLE_MARGIN - PADDLE_SIZE.x, 0, PADDLE_SIZE.x, PADDLE_SIZE.y },
         PADDLE_VELOCITY,
     };
 
@@ -75,7 +74,7 @@ static bool anyPlayerHasWon(GameplayEntities* gameEntities) {
     return playerHasWon(gameEntities->players[0]) || playerHasWon(gameEntities->players[1]);
 }
 
-void checkGameplayInputs(GameplayEntities* gameEntities, Screens &screen, bool& shouldClose) {
+void checkGameplayInputs(GameplayEntities* gameEntities, Screens& screen, bool& shouldClose) {
     if (WindowShouldClose()) {
         shouldClose = true;
         return;
@@ -148,20 +147,21 @@ void checkGameplayCollisions(GameplayEntities* gameEntities) {
 }
 
 static void drawField() {
-    const float HALF_SCREEN_WIDTH = getHalf(GetScreenWidth());
-    const float HALF_SCREEN_HEIGHT = getHalf(GetScreenHeight());
+    const float HALF_FIELD_WIDTH = getHalf(FIELD_DIMENSIONS.x);
+    const float HALF_FIELD_HEIGHT = getHalf(FIELD_DIMENSIONS.y);
 
     const float MID_FIELD_LINE_WIDTH = 5.0f;
-    const float MID_FIELD_CIRCLE_DIAMETER = 54.0f;
+    const float MID_FIELD_CIRCLE_RADIUS = 28.0f;
     const float MID_FIELD_CIRCLE_STROKE_WIDTH = 4.0f;
-    const Rectangle MID_FIELD_LINE = { HALF_SCREEN_WIDTH - getHalf(MID_FIELD_LINE_WIDTH), 0, MID_FIELD_LINE_WIDTH, GetScreenHeight() };
     const Color FIELD_LINE_COLOR = { 143, 143, 143, 100 };
+    const Vector3 CENTER = { 0.0f, 0.0f, 0.0f };
 
-    DrawRectangleRec(MID_FIELD_LINE, FIELD_LINE_COLOR);
-    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_CIRCLE_DIAMETER, BLACK);
-    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_CIRCLE_DIAMETER, FIELD_LINE_COLOR);
-    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_CIRCLE_DIAMETER - MID_FIELD_CIRCLE_STROKE_WIDTH, BLACK);
-    DrawCircle(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, MID_FIELD_LINE_WIDTH, FIELD_LINE_COLOR);
+    DrawPlane(CENTER, { FIELD_DIMENSIONS.x, FIELD_DIMENSIONS.y }, BLACK);
+
+    DrawCubeV(CENTER, { MID_FIELD_LINE_WIDTH, 1.0f, FIELD_DIMENSIONS.y }, FIELD_LINE_COLOR);
+    
+    DrawCylinder(CENTER, MID_FIELD_CIRCLE_RADIUS, MID_FIELD_CIRCLE_RADIUS, 5.0, MID_FIELD_CIRCLE_RADIUS, BLACK);
+    DrawCylinder(CENTER, MID_FIELD_CIRCLE_RADIUS, MID_FIELD_CIRCLE_RADIUS, 5.0, MID_FIELD_CIRCLE_RADIUS, FIELD_LINE_COLOR);
 }
 
 static void drawGameplayUI(GameplayEntities gameEntities) {
@@ -170,8 +170,8 @@ static void drawGameplayUI(GameplayEntities gameEntities) {
     const float QUARTER_SCREEN_WIDTH = GetScreenWidth() / 4.0f;
     const float THREE_QUARTERS_SCREEN_WIDTH = 3.0f * QUARTER_SCREEN_WIDTH;
 
-    DrawText(std::to_string(gameEntities.players[0].score).c_str(), QUARTER_SCREEN_WIDTH, SCORE_TEXT_MARGIN, SCORE_TEXT_FONT_SIZE, WHITE);
-    DrawText(std::to_string(gameEntities.players[1].score).c_str(), THREE_QUARTERS_SCREEN_WIDTH, SCORE_TEXT_MARGIN, SCORE_TEXT_FONT_SIZE, WHITE);
+    DrawText(std::to_string(gameEntities.players[0].score).c_str(), QUARTER_SCREEN_WIDTH, SCORE_TEXT_MARGIN, SCORE_TEXT_FONT_SIZE, BLACK);
+    DrawText(std::to_string(gameEntities.players[1].score).c_str(), THREE_QUARTERS_SCREEN_WIDTH, SCORE_TEXT_MARGIN, SCORE_TEXT_FONT_SIZE, BLACK);
 }
 
 static void drawCenterBox(const char* upperText, const char* bottomText) {
@@ -186,7 +186,7 @@ static void drawCenterBox(const char* upperText, const char* bottomText) {
     const float TEXT_PADDING = 20.0f;
     const float WIN_TEXT_FONT_SIZE = 20.0f;
     const float GO_BACK_FONT_SIZE = 16.0f;
-   
+
     Rectangle rectangle = {
         RECTANGLE_X_POSITION,
         RECTANGLE_Y_POSITION,
@@ -235,17 +235,30 @@ static void drawPauseBox() {
 }
 
 void drawGameplay(GameplayEntities gameEntities) {
-    drawField();
-    
-    if (!isNotSetted(gameEntities.powerUp)) {
-        drawPowerUp(gameEntities.powerUp);
-    }
+    Camera3D camera = { 0 };
+    camera.position = { 0.0f, SCREEN_DIMENSIONS.x, SCREEN_DIMENSIONS.y };  // Camera position
+    camera.target = { 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = { 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.fovy = 45.0f;                                // Camera field-of-view Y
+    camera.projection = CAMERA_PERSPECTIVE;             // Camera mode type
+
+    ClearBackground(RAYWHITE);
+
+    BeginMode3D(camera);
+
+        drawField();
+
+        if (!isNotSetted(gameEntities.powerUp)) {
+            drawPowerUp(gameEntities.powerUp);
+        }
+
+        drawBall(gameEntities.ball);
+        drawPaddle(gameEntities.players[0].paddle);
+        drawPaddle(gameEntities.players[1].paddle);
+
+    EndMode3D();
 
     drawGameplayUI(gameEntities);
-
-    drawBall(gameEntities.ball);
-    drawPaddle(gameEntities.players[0].paddle);
-    drawPaddle(gameEntities.players[1].paddle);
 
     if (playerHasWon(gameEntities.players[0])) {
         drawWinBox(gameEntities.players[0]);

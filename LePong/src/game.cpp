@@ -2,11 +2,10 @@
 #include "game.h";
 #include "screens/menu.h";
 #include "screens.h";
+#include "constants.h";
 
 static GameEntities init() {
-    Vector2 ScreenDimensions = { 640, 480 };
-
-    InitWindow(ScreenDimensions.x, ScreenDimensions.y, "LePong");
+    InitWindow(SCREEN_DIMENSIONS.x, SCREEN_DIMENSIONS.y, "LePong");
 
     Menu menu = initMenu();
 

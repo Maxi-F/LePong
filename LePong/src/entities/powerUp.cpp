@@ -1,5 +1,7 @@
 #include "powerUp.h"
 #include "../utils.h"
+#include "../constants.h"
+#include <iostream>
 
 void checkPowerUpCollision(PowerUp powerUp, Ball& ball, Paddle& paddle) {
 	switch (powerUp.type) {
@@ -23,8 +25,8 @@ static Rectangle generatePowerUpRectangle() {
 	const float HEIGHT = 40.0f;
 	const float WIDTH = 40.0f;
 	const float Y_MARGIN = 30.0f;
-	const float Y_POSITION = GetRandomValue(Y_MARGIN, GetScreenHeight() - HEIGHT - Y_MARGIN);
-	const float X_POSITION = getRandomNegativeOrPositive() == 1 ? GetScreenWidth() / 4 : 3 * GetScreenWidth() / 4;
+	const float Y_POSITION = GetRandomValue(-getHalf(FIELD_DIMENSIONS.y) + Y_MARGIN, getHalf(FIELD_DIMENSIONS.y) - HEIGHT - Y_MARGIN);
+	const float X_POSITION = getRandomNegativeOrPositive() == 1 ? -FIELD_DIMENSIONS.x / 4 : FIELD_DIMENSIONS.x / 4;
 
 	return {
 		X_POSITION,
@@ -65,7 +67,18 @@ void generateRandomPowerUp(PowerUp& powerUp) {
 }
 
 void drawPowerUp(PowerUp powerUp) {
-	DrawRectangleRec(powerUp.rectangle, RED);
+	DrawCubeV(
+		{
+			powerUp.rectangle.x + getHalf(powerUp.rectangle.width),
+			0,
+			powerUp.rectangle.y + getHalf(powerUp.rectangle.height)
+		}, {
+			powerUp.rectangle.width,
+			10.0f,
+			powerUp.rectangle.height
+		},
+		RED
+	);
 
 	float FONT_SIZE = 10.0f;
 	float textLength = MeasureText(powerUp.text, FONT_SIZE);

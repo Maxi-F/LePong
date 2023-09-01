@@ -2,8 +2,8 @@
 #include "raylib.h"
 
 struct Ball {
-    Vector2 position;
-    Vector2 direction;
+    Vector3 position;
+    Vector3 direction;
     float velocity;
     float radius;
     int points;
