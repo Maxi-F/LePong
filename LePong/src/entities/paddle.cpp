@@ -62,14 +62,16 @@ bool isPaddleNotOnBottom(Paddle paddle) {
 }
 
 void drawPaddle(Paddle paddle) {
+    float PADDLE_HEIGHT = 10.0f;
+
     DrawCubeV(
         {
             paddle.rectangle.x + getHalf(paddle.rectangle.width),
-            10.0f,
+            PADDLE_HEIGHT,
             paddle.rectangle.y + getHalf(paddle.rectangle.height)
         }, {
             paddle.rectangle.width,
-            10.0f,
+            PADDLE_HEIGHT,
             paddle.rectangle.height
         },
         paddle.color
@@ -78,11 +80,11 @@ void drawPaddle(Paddle paddle) {
     DrawCubeWiresV(
         {
             paddle.rectangle.x + getHalf(paddle.rectangle.width),
-            10.0f,
+            PADDLE_HEIGHT,
             paddle.rectangle.y + getHalf(paddle.rectangle.height)
         }, {
             paddle.rectangle.width,
-            10.0f,
+            PADDLE_HEIGHT,
             paddle.rectangle.height
         },
         WHITE

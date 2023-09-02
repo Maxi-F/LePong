@@ -101,5 +101,7 @@ void refreshPosition(Ball& ball) {
 }
 
 void drawBall(Ball ball) {
-    DrawCylinder(ball.position, ball.radius, ball.radius, 5.0f, ball.radius, WHITE);
+    float ballHeight = 5.0f;
+
+    DrawCylinder(ball.position, ball.radius, ball.radius, ballHeight, ball.radius, WHITE);
 }

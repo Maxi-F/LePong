@@ -49,14 +49,14 @@ void generateRandomPowerUp(PowerUp& powerUp) {
 			powerUp = {
 				powerUpType,
 				rectangle,
-				RED
+				DARKGREEN
 			};
 			break;
 		case PowerUpType::REDUCE:
 			powerUp = {
 				powerUpType,
 				rectangle,
-				DARKGREEN
+				RED
 			};
 			break;
 		case PowerUpType::PLUS_POINTS:

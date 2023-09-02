@@ -24,6 +24,9 @@ static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntitie
     case Screens::CREDITS:
         checkCreditsInputCollision(screen, gameEntities.creditsScreen);
         break;
+    case Screens::RULES:
+        checkRulesInputCollision(screen, gameEntities.rulesScreen);
+        break;
     case Screens::GAMEPLAY:
         checkGameplayInputs(&gameEntities.gameplayEntities, screen, shouldClose);
         updateCpuMovement(&gameEntities.gameplayEntities);
@@ -45,6 +48,9 @@ static void draw(Screens screen, GameEntities gameEntities) {
         break;
     case Screens::CREDITS:
         drawCredits(gameEntities.creditsScreen);
+        break;
+    case Screens::RULES:
+        drawRules(gameEntities.rulesScreen);
         break;
     case Screens::GAMEPLAY:
         drawGameplay(gameEntities.gameplayEntities);

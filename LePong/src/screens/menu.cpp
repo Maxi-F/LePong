@@ -7,9 +7,9 @@
 #include <string>
 
 static const float OPTION_RECTANGLE_WIDTH = 300.0f;
-static const float OPTION_RECTANGLE_HEIGHT = 50.0f;
+static const float OPTION_RECTANGLE_HEIGHT = 40.0f;
 static const float OPTION_FONT_SIZE = 20.0f;
-static const float TOP_MARGIN = 150.0f;
+static const float TOP_MARGIN = 120.0f;
 static const float OPTION_RECTANGLE_MARGIN = 25.0f;
 static const float TITLE_TOP_MARGIN = 40.0f;
 static const float TITLE_FONT_SIZE = 50.0f;
@@ -52,21 +52,27 @@ static std::string optionToText(Option option) {
 			return "Player vs CPU";
 		case Option::EXIT:
 			return "Exit";
+		case Option::READ_RULES:
+			return "Rules";
 		case Option::READ_CREDITS:
 			return "Credits";
 	}
 }
 
-static void actionPerMenuOption(Option option, Screens& screen, bool& shouldClose, GameEntities& gameplayEntities) {
+static void actionPerMenuOption(Option option, Screens& screen, bool& shouldClose, GameEntities& gameEntities) {
 	switch (option) {
 		case Option::PLAY_PVP:
 		case Option::PLAY_CPU:
 			screen = Screens::GAMEPLAY;
-			gameplayEntities.gameplayEntities = initGameplay(option == Option::PLAY_CPU);
+			gameEntities.gameplayEntities = initGameplay(option == Option::PLAY_CPU);
 			break;
 		case Option::READ_CREDITS:
 			screen = Screens::CREDITS;
-			gameplayEntities.creditsScreen = initCredits();
+			gameEntities.creditsScreen = initCredits();
+			break;
+		case Option::READ_RULES:
+			screen = Screens::RULES;
+			gameEntities.rulesScreen = initRules();
 			break;
 		case Option::EXIT:
 			shouldClose = true;
@@ -95,7 +101,7 @@ Menu initMenu() {
 		};
 	}
 
-	return { { menuOptions[0], menuOptions[1], menuOptions[2], menuOptions[3] } };
+	return { { menuOptions[0], menuOptions[1], menuOptions[2], menuOptions[3], menuOptions[4] } };
 }
 
 void drawMenu(Menu menu) {

@@ -10,7 +10,7 @@ struct Credits {
 	std::string names;
 };
 
-struct GoBackRectangle {
+static struct GoBackRectangle {
 	Rectangle rectangle;
 	bool isHovered;
 };

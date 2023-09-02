@@ -30,6 +30,7 @@
     <ClCompile Include="src\screens\draws\gameplayDraws.cpp" />
     <ClCompile Include="src\screens\gameplay.cpp" />
     <ClCompile Include="src\screens\menu.cpp" />
+    <ClCompile Include="src\screens\rules.cpp" />
     <ClCompile Include="src\timer.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
@@ -45,6 +46,7 @@
     <ClInclude Include="src\screens\draws\gameplayDraws.h" />
     <ClInclude Include="src\screens\gameplay.h" />
     <ClInclude Include="src\screens\menu.h" />
+    <ClInclude Include="src\screens\rules.h" />
     <ClInclude Include="src\timer.h" />
     <ClInclude Include="src\utils.h" />
   </ItemGroup>
