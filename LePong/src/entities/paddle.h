@@ -5,12 +5,16 @@ struct Ball;
 
 struct Paddle {
     Rectangle rectangle;
-    int velocity;
+    float velocity;
+    Color color;
+    Color wiresColor;
 };
 
 extern const Vector2 PADDLE_SIZE;
 extern const float PADDLE_MARGIN;
 extern const float PADDLE_VELOCITY;
+
+Paddle initPaddle(float position, Color color, Color wiresColor);
 
 void moveUp(Paddle& paddle);
 

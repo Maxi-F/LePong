@@ -19,3 +19,7 @@ void updateCpuPlayerMovement(Player& player, Ball ball) {
 		updatePaddlePositionPerBall(player.paddle, ball);
 	}
 }
+
+void addScore(Player& player, int score) {
+	player.score += score;
+}

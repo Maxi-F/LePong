@@ -16,3 +16,4 @@ static struct Player {
 void checkInput(Player& player);
 bool playerHasWon(Player player);
 void updateCpuPlayerMovement(Player& player, Ball ball);
+void addScore(Player& player, int score);

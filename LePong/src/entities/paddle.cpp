@@ -8,7 +8,15 @@ using namespace std;
 
 extern const Vector2 PADDLE_SIZE = { 15.0f, 80.0f };
 extern const float PADDLE_MARGIN = 40.0f;
-extern const float PADDLE_VELOCITY = 400.0f;
+extern const float PADDLE_VELOCITY = 300.0f;
+
+Paddle initPaddle(float position, Color color, Color wiresColor) {
+    return {
+        { position, 0, PADDLE_SIZE.x, PADDLE_SIZE.y },
+        PADDLE_VELOCITY,
+        color
+    };
+}
 
 void moveUp(Paddle& paddle) {
     paddle.rectangle.y -= getWithFrameTime(paddle.velocity);
@@ -57,27 +65,27 @@ void drawPaddle(Paddle paddle) {
     DrawCubeV(
         {
             paddle.rectangle.x + getHalf(paddle.rectangle.width),
-            0,
+            10.0f,
             paddle.rectangle.y + getHalf(paddle.rectangle.height)
         }, {
             paddle.rectangle.width,
             10.0f,
             paddle.rectangle.height
         },
-        PINK
+        paddle.color
     );
 
     DrawCubeWiresV(
         {
             paddle.rectangle.x + getHalf(paddle.rectangle.width),
-            0,
+            10.0f,
             paddle.rectangle.y + getHalf(paddle.rectangle.height)
         }, {
             paddle.rectangle.width,
             10.0f,
             paddle.rectangle.height
         },
-        RED
+        WHITE
     );
 }
 

@@ -28,6 +28,7 @@ static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntitie
         checkGameplayInputs(&gameEntities.gameplayEntities, screen, shouldClose);
         updateCpuMovement(&gameEntities.gameplayEntities);
         updatePowerUp(gameEntities.gameplayEntities);
+        updateCamera(gameEntities.gameplayEntities);
         checkGameplayCollisions(&gameEntities.gameplayEntities);
         break;
     };

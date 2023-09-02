@@ -25,6 +25,12 @@
     <Filter Include="Archivos de encabezado\screens">
       <UniqueIdentifier>{4e204052-63e9-4b38-804d-27376f611aea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\screens\draws">
+      <UniqueIdentifier>{0fa27fd7-39cc-45c4-8413-eb0b164fb566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\screens\draws">
+      <UniqueIdentifier>{3de1bb3d-b303-491e-8295-4a3c26a1798c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -63,6 +69,9 @@
     <ClCompile Include="src\entities\powerUp.cpp">
       <Filter>Archivos de origen\entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\screens\draws\gameplayDraws.cpp">
+      <Filter>Archivos de origen\screens\draws</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\constants.h">
@@ -100,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="src\screens\menu.h">
       <Filter>Archivos de encabezado\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\screens\draws\gameplayDraws.h">
+      <Filter>Archivos de encabezado\screens\draws</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

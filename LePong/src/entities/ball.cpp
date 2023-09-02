@@ -25,6 +25,18 @@ static float getValuePerBallDirection(Ball ball, float directionPositiveValue, f
     return ball.direction.x > 0 ? directionPositiveValue : directionNegativeValue;
 }
 
+Ball initBall() {
+    Vector3 initialBallPosition = { 0, 0, 0 };
+
+    return {
+        initialBallPosition,
+        { getHalf(getRandomNegativeOrPositive()), 0, getHalf(getRandomNegativeOrPositive()) },
+        BALL_VELOCITY,
+        BALL_RADIUS,
+        1
+    };
+}
+
 bool isBallOnLeftEdge(Ball& ball) {
     return ball.position.x <= (-getHalf(FIELD_DIMENSIONS.x) + ball.radius);
 }
