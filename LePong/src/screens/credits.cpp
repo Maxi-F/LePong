@@ -23,6 +23,21 @@ static void drawGoBackBox(GoBackRectangle goBackBox) {
 	else {
 		DrawRectangleRec(goBackBox.rectangle, RED);
 	}
+
+	Rectangle goBackBoxRectangle = goBackBox.rectangle;
+
+	const char* goBackText = "Go Back";
+	const float GO_BACK_FONT_SIZE = 20.0f;
+
+	float goBackLength = MeasureText(goBackText, GO_BACK_FONT_SIZE);
+
+	DrawText(
+		goBackText,
+		goBackBoxRectangle.x + getHalf(goBackBoxRectangle.width) - getHalf(goBackLength),
+		goBackBoxRectangle.y + getHalf(goBackBoxRectangle.height) - getHalf(GO_BACK_FONT_SIZE),
+		GO_BACK_FONT_SIZE,
+		WHITE
+	);
 }
 
 void drawCredits(CreditsScreen creditsScreen) {
@@ -54,22 +69,7 @@ void drawCredits(CreditsScreen creditsScreen) {
 		);
 	};
 
-	Rectangle goBackBoxRectangle = creditsScreen.goBackBox.rectangle;
-
 	drawGoBackBox(creditsScreen.goBackBox);
-
-	const char* goBackText = "Go Back";
-	const float GO_BACK_FONT_SIZE = 20.0f;
-
-	float goBackLength = MeasureText(goBackText, GO_BACK_FONT_SIZE);
-
-	DrawText(
-		goBackText,
-		goBackBoxRectangle.x + getHalf(goBackBoxRectangle.width) - getHalf(goBackLength),
-		goBackBoxRectangle.y + getHalf(goBackBoxRectangle.height) - getHalf(GO_BACK_FONT_SIZE),
-		GO_BACK_FONT_SIZE,
-		WHITE
-	);
 };
 
 void checkCreditsInputCollision(Screens& screen, CreditsScreen& credits) {

@@ -7,16 +7,17 @@ enum PowerUpType {
 	ENLARGE = 0,
 	REDUCE,
 	PLUS_POINTS,
+	ROTATE_CAMERA,
 	EMPTY
 };
 
 struct PowerUp {
 	PowerUpType type;
 	Rectangle rectangle;
-	const char* text;
+	Color color;
 };
 
-void checkPowerUpCollision(PowerUp powerUp, Ball& ball, Paddle& paddle);
+void checkPowerUpCollision(PowerUp powerUp, Ball& ball, Paddle& paddle, int& cameraMode);
 bool isNotSetted(PowerUp powerUp);
 void drawPowerUp(PowerUp powerUp);
 void generateRandomPowerUp(PowerUp& powerUp);

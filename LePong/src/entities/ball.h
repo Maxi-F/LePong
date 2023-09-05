@@ -2,8 +2,8 @@
 #include "raylib.h"
 
 struct Ball {
-    Vector2 position;
-    Vector2 direction;
+    Vector3 position;
+    Vector3 direction;
     float velocity;
     float radius;
     int points;
@@ -23,3 +23,4 @@ void refreshToInitialPosition(Ball& ball);
 void drawBall(Ball ball);
 void addPoints(Ball& ball);
 bool checkBallCollisionWith(Rectangle rectangle, Ball ball);
+Ball initBall();

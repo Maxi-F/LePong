@@ -3,11 +3,13 @@
 #include "../screens.h"
 #include "../game.h"
 #include "gameplay.h"
+#include "rules.h"
 #include "credits.h"
 
 enum Option {
 	PLAY_PVP,
 	PLAY_CPU,
+	READ_RULES,
 	READ_CREDITS,
 	EXIT,
 	OPTIONS_QUANTITY
@@ -28,6 +30,7 @@ struct GameEntities {
 	GameplayEntities gameplayEntities;
 	Menu menu;
 	CreditsScreen creditsScreen;
+	RulesScreen rulesScreen;
 };
 
 void drawMenu(Menu menu);

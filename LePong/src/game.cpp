@@ -2,11 +2,10 @@
 #include "game.h";
 #include "screens/menu.h";
 #include "screens.h";
+#include "constants.h";
 
 static GameEntities init() {
-    Vector2 ScreenDimensions = { 640, 480 };
-
-    InitWindow(ScreenDimensions.x, ScreenDimensions.y, "LePong");
+    InitWindow(SCREEN_DIMENSIONS.x, SCREEN_DIMENSIONS.y, "LePong");
 
     Menu menu = initMenu();
 
@@ -25,10 +24,14 @@ static void update(Screens& screen, bool& shouldClose, GameEntities& gameEntitie
     case Screens::CREDITS:
         checkCreditsInputCollision(screen, gameEntities.creditsScreen);
         break;
+    case Screens::RULES:
+        checkRulesInputCollision(screen, gameEntities.rulesScreen);
+        break;
     case Screens::GAMEPLAY:
         checkGameplayInputs(&gameEntities.gameplayEntities, screen, shouldClose);
         updateCpuMovement(&gameEntities.gameplayEntities);
         updatePowerUp(gameEntities.gameplayEntities);
+        updateCamera(gameEntities.gameplayEntities);
         checkGameplayCollisions(&gameEntities.gameplayEntities);
         break;
     };
@@ -45,6 +48,9 @@ static void draw(Screens screen, GameEntities gameEntities) {
         break;
     case Screens::CREDITS:
         drawCredits(gameEntities.creditsScreen);
+        break;
+    case Screens::RULES:
+        drawRules(gameEntities.rulesScreen);
         break;
     case Screens::GAMEPLAY:
         drawGameplay(gameEntities.gameplayEntities);
