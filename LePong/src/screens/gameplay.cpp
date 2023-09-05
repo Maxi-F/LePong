@@ -4,10 +4,12 @@
 #include <string>;
 
 static Camera3D initCamera() {
+    float cameraPlusUp = 100.0f;
+
     Camera3D camera = { 0 };
-    camera.position = { 0.0f, SCREEN_DIMENSIONS.x, FIELD_DIMENSIONS.y };
+    camera.position = { 0.0f, FIELD_DIMENSIONS.x + cameraPlusUp, FIELD_DIMENSIONS.y };
     camera.target = { 0.0f, 0.0f, 0.0f };
-    camera.up = { 0.0f, 0.5f, 0.0f };
+    camera.up = { 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
 
